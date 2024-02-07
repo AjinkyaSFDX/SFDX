@@ -1,0 +1,133 @@
+<aura:component controller="AccountController" implements="force:appHostable,flexipage:availableForAllPageTypes">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <aura:attribute name="searchKey" type="String"/>
+    <aura:attribute name="accountRecordToEdit" type="sObject"/>
+    <aura:attribute name="accounts" type="List"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="allCalculations" type="list"/>
+    <aura:attribute name="recordToEditId" type="Id"/>
+    <aura:attribute name="showSearch" type="Boolean"/>
+    <aura:attribute name="showTable" type="Boolean"/>
+    <aura:attribute name="showRecordEditForm" type="Boolean"/>
+    <aura:attribute name="showCalculator" type="Boolean"/>
+    <aura:attribute name="showVideo" type="Boolean"/>
+    <aura:attribute name="showHistory" type="Boolean"/>
+    <aura:attribute name="showVideoButton" type="Boolean"/>
+    
+    <aura:attribute name="num1" type="integer" />
+    <aura:attribute name="num2" type="integer" />
+    <aura:attribute name="total" type="integer" />
+    
+    <aura:attribute name="isAdd" type="boolean" default="false" />
+    <aura:attribute name="isSub" type="boolean" default="false" />
+    <aura:attribute name="isMul" type="boolean" default="false" />
+    <aura:attribute name="isDiv" type="boolean" default="false" />
+    
+    
+    <lightning:card title="Aura Component">
+    	<aura:if isTrue="{!v.showSearch}">
+            <div class="slds-p-left_large">
+                <lightning:input
+                    aura:id="enter-search"
+                    name="enter-search"
+                    label="Serch Accounts"
+                    type="search"/>
+                <br/>
+			</div>
+            <div class="slds-align_absolute-center">
+            	<lightning:button variant="brand" label="Search Accounts" title="Fetch Accounts" onclick="{!c.handleClick}" />
+            </div>
+        </aura:if>
+            <br/>
+    	<aura:if isTrue="{!v.showTable}">
+            <lightning:datatable 
+                             keyField="id" 
+                             data="{!v.accounts}" 
+                             columns="{!v.columns}"
+                             hideCheckboxColumn="true"
+                             onrowaction="{!c.handleRowAction}"/>
+        </aura:if>
+            <br/>
+    	<aura:if isTrue="{!v.showRecordEditForm}">
+            <div class="slds-p-left_large">
+                <lightning:recordEditForm recordId="{!v.accountRecordToEdit.Id}" objectApiName="Account"  onsuccess="{!c.handleSuccess}">
+                    <lightning:messages />
+                    <lightning:inputField fieldName="Name" value="{!v.accountRecordToEdit.Name}"/>
+                    <lightning:inputField fieldName="Phone" value="{!v.accountRecordToEdit.Phone}"/>
+                    <lightning:inputField fieldName="Website" value="{!v.accountRecordToEdit.Website}"/>
+                    <div class="slds-align_absolute-center">
+                            <lightning:button class="slds-m-top_small" variant="brand" type="submit" name="update" label="Update"/>
+                            <lightning:button class="slds-m-top_small" variant="success" type="submit" name="update" label="Update"/>
+                    </div>
+                </lightning:recordEditForm>
+            </div>
+        </aura:if>
+        
+    	<aura:if isTrue="{!v.showCalculator}">
+            <div class="slds-p-left_large">
+                <lightning:input name="input1" label="Enter First Number" value="{!v.num1}" />
+                <lightning:input name="input2" label="Enter Second Number" value="{!v.num2}" />
+                <br/>
+                <lightning:buttonGroup>
+                        <div class="slds-grid slds-gutters">
+                          <div class="slds-col slds-align_absolute-center">
+                            <lightning:button label="Addition" onclick="{!c.Add}" />
+                          </div>
+                          <div class="slds-col slds-align_absolute-center">
+                            <lightning:button label="Subtract" onclick="{!c.Sub}" />
+                          </div>
+                          <div class="slds-col slds-align_absolute-center">
+                            <lightning:button label="Multiply" onclick="{!c.Mul}" />
+                          </div>
+                          <div class="slds-col slds-align_absolute-center">
+                            <lightning:button label="Division" onclick="{!c.Divi}" />
+                          </div>
+                          <div class="slds-col slds-align_absolute-center">
+                            <lightning:button label="Clear" onclick="{!c.Clear}" />
+                          </div>
+                        </div>
+                </lightning:buttonGroup>
+            </div>
+            
+            <br/>
+            <div class="slds-p-left_large">
+                <aura:if isTrue="{!v.isAdd}">
+                    Addition of Two Numbers = {!v.total}
+                </aura:if>
+                <aura:if isTrue="{!v.isSub}">
+                    Subtraction of Two Numbers = {!v.total}
+                </aura:if>
+                <aura:if isTrue="{!v.isMul}">
+                    Multiplication of Two Numbers = {!v.total}
+                </aura:if>
+                <aura:if isTrue="{!v.isDiv}">
+                    Division of Two Numbers = {!v.total}
+                </aura:if>
+            </div>
+            <br/>
+            <div class="slds-align_absolute-center">
+        		<lightning:button variant="brand" label="Show History" title="Show History" onclick="{!c.showHistoryButton}" />
+            </div>
+            <br/>
+        </aura:if>
+            <br/>
+        <aura:if isTrue="{!v.showHistory}">
+            <div class="slds-p-left_large">
+                <aura:iteration items="{!v.allCalculations}" var="item">
+                    <p>{!item}</p>
+            		<br/>
+                </aura:iteration>
+            </div>
+        </aura:if>
+            <br/>
+        <aura:if isTrue="{!v.showVideoButton}">
+            <div class="slds-align_absolute-center">
+        		<lightning:button variant="brand" label="Show Video" title="Show Video" onclick="{!c.showVideo}" />
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.showVideo}">
+            <iframe width="2000" height="800" src="https://www.youtube.com/embed/DX6SXrSDErY?si=YNPHnA_UmWmCZBAS;start=27?autoplay=1" title="YouTube Video Player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="true"></iframe>   
+        </aura:if>
+    </lightning:card>
+</aura:component>

@@ -1,0 +1,8 @@
+<template>
+    <h1>Parent Component</h1>
+    <lightning-button label="Show Child" onclick={handleLoad}></lightning-button>
+    <template if:true={showChildValues}>
+        <c-child-component value-from-parent={valueToPass} onsendittoparent={handleChildEvent}></c-child-component>
+    </template>
+    <p>{serachResultFromChild}</p>
+</template>

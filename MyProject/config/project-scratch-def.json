@@ -1,13 +1,17 @@
 {
-  "orgName": "akumbhar company",
+  "orgName": "Scratch",
   "edition": "Developer",
   "features": ["EnableSetPasswordInApi"],
   "settings": {
     "lightningExperienceSettings": {
       "enableS1DesktopEnabled": true
     },
+    "userManagementSettings": {
+      "enableNewProfileUI": true
+    },
     "mobileSettings": {
       "enableS1EncryptedStoragePref2": false
     }
-  }
+  },
+  "hasSampleData": true
 }

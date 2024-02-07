@@ -1,0 +1,31 @@
+.button {
+  --slds-c-button-brand-color-background: yellow; 
+  --slds-c-button-brand-color-background-hover: yellow;
+  --slds-c-button-brand-color-border: black; 
+  --slds-c-button-brand-color-border-hover: yellow; 
+  --slds-c-button-brand-text-color: black; 
+  --slds-c-button-brand-text-color-hover: purple;
+}
+.datatable-orange{
+  color:#009900;
+  background-color:#e06000;
+}
+.datatable-purple{
+  color:#ff751a;
+  background-color:purple;
+}
+.datatable-red{
+  color:#000066;
+  background-color:red;
+}
+.datatable-blue{
+  color:#00ffff;
+  background-color:blue;
+}
+.datatable-orange:hover{
+  color:#ff0080;
+  background-color:#e06000;
+}
+.myTable table>thead .slds-cell-fixed.slds-has-button-menu, .myTable table>thead .slds-cell-fixed.slds-has-button-menu:hover{
+  background: #ff00ff;
+}
